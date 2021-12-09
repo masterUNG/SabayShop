@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:sabayshop/widgets/show_title.dart';
+
+
+class Cart extends StatefulWidget {
+  const Cart({Key? key}) : super(key: key);
+
+  @override
+  _CartState createState() => _CartState();
+}
+
+class _CartState extends State<Cart> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: ShowTitle(title: 'This is Cart'),);
+  }
+}

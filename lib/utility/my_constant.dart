@@ -5,6 +5,7 @@ class MyConstant {
   static String routeAuthen = '/authen';
   static String routeCreateAccount = '/createAccount';
   static String routeMyService = '/myService';
+  static String routeForAdmin = '/forAdmin';
   static String appName = 'Sabay Shop';
 
   // Method

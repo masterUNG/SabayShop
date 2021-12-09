@@ -5,6 +5,8 @@
    <application
         android:label="sabayshop"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyDDfWHwru1wVi6YZQviGQI_PL_WNRjZaxo"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

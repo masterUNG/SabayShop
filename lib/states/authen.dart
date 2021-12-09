@@ -1,7 +1,8 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sabayshop/utility/my_constant.dart';
+import 'package:sabayshop/utility/my_dialog.dart';
 import 'package:sabayshop/widgets/show_image.dart';
 import 'package:sabayshop/widgets/show_textformfield.dart';
 import 'package:sabayshop/widgets/show_title.dart';
@@ -35,7 +36,8 @@ class _AuthenState extends State<Authen> {
                   buildEmail(),
                   buildPassword(),
                   buildLogin(),
-                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ShowTitle(
                         title: 'Non Account ?',
@@ -105,11 +107,32 @@ class _AuthenState extends State<Authen> {
       margin: const EdgeInsets.only(top: 16),
       width: 250,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
             // ignore: avoid_print
             print('email = $email, password = $password');
+
+            await FirebaseAuth.instance
+                .signInWithEmailAndPassword(email: email!, password: password!)
+                .then((value)async {
+
+                  String uid = value.user!.uid;
+                  await FirebaseFirestore.instance.collection('user').doc(uid).collection('admin').get().then((value) {
+                    if (value.docs.isEmpty) {
+                      return Navigator.pushNamedAndRemoveUntil(context, MyConstant.routeMyService, (route) => false);
+                    } else {
+                      return Navigator.pushNamedAndRemoveUntil(context, MyConstant.routeForAdmin, (route) => false);
+                    }
+                  });
+
+
+
+
+                })
+                .catchError((value) {
+              MyDialog().normalDialog(context, value.code, value.message);
+            });
           }
         },
         child: const Text('Login'),
